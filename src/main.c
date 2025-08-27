@@ -20,6 +20,12 @@ typedef enum
     GAMEOVER = 2
 } GameState;
 
+typedef struct
+{
+    bool buttonHovered;
+    bool buttonPressed;
+} menuWorld;
+
 void drawButton(Vector2 bottomCorner, Vector2 size, char *text, Color fillColor, Color lineColor)
 {
     Vector2 mousePoint = GetMousePosition();
@@ -100,9 +106,9 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        // Handle Input
-        // Update State
-        // Draw
+        // Handle Input -  input_poll(Input *in);
+        // Update State - update_player(Player *p, const World *w, const Input *in, float dt);
+        // Draw - render_scene(const Player *p, const World *w);
 
         drawToScreen(gameState);
     }
