@@ -13,6 +13,36 @@ typedef struct
     double x2, y2;
 } Line;
 
+typedef enum
+{
+    MENU = 0,
+    PLAYING = 1,
+    GAMEOVER = 2
+} GameState;
+
+void drawMenu()
+{
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), "SNAKE", 30, 5);
+
+    Vector2 textPos = {
+        (GetScreenWidth() / 2) - (int)(textSize.x) / 2,
+        (GetScreenHeight() / 2) - (int)(textSize.y) / 2};
+
+    DrawTextEx(GetFontDefault(), "SNAKE", textPos, 30, 5, BLACK);
+}
+
+void drawToScreen(GameState gameState)
+{
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+
+    if (gameState == MENU)
+    {
+        drawMenu();
+    }
+    EndDrawing();
+}
+
 int main(void)
 {
     // Initialization
@@ -20,16 +50,19 @@ int main(void)
     const int screenWidth = 800;
     const int screenHeight = 450;
 
+    GameState gameState = 0;
+
     InitWindow(screenWidth, screenHeight, "Snake Game");
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
+        // Handle Input
+        // Update State
+        // Draw
 
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        EndDrawing();
+        drawToScreen(gameState);
     }
 
     CloseWindow();
