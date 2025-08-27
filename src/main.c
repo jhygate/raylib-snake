@@ -38,6 +38,13 @@ void drawButton(Vector2 bottomCorner, int width, int height, char *text)
     DrawLineV(Corner1, Corner2, BLACK);
     DrawLineV(Corner2, Corner3, BLACK);
     DrawLineV(Corner3, bottomCorner, BLACK);
+
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), text, 30, 5);
+    Vector2 textPos = {
+        bottomCorner.x + ((width / 2) - (textSize.x / 2)),
+        bottomCorner.y + ((height / 2) - (textSize.y / 2))};
+
+    DrawTextEx(GetFontDefault(), text, textPos, 30, 5, BLACK);
 }
 
 void drawMenu()
@@ -55,7 +62,7 @@ void drawMenu()
 
     Vector2 buttonCorner = {
         (GetScreenWidth() / 2) - (int)(buttonWidth) / 2,
-        (GetScreenHeight() / 2) - (int)(buttonHeight) / 2};
+        (GetScreenHeight() / 2) + 100 - (int)(buttonHeight) / 2};
 
     drawButton(buttonCorner, buttonWidth, buttonHeight, "PLAY");
 }
