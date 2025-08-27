@@ -20,6 +20,26 @@ typedef enum
     GAMEOVER = 2
 } GameState;
 
+void drawButton(Vector2 bottomCorner, int width, int height, char *text)
+{
+    Vector2 Corner1 = {
+        bottomCorner.x + width,
+        bottomCorner.y};
+
+    Vector2 Corner2 = {
+        bottomCorner.x + width,
+        bottomCorner.y + height};
+
+    Vector2 Corner3 = {
+        bottomCorner.x,
+        bottomCorner.y + height};
+
+    DrawLineV(bottomCorner, Corner1, BLACK);
+    DrawLineV(Corner1, Corner2, BLACK);
+    DrawLineV(Corner2, Corner3, BLACK);
+    DrawLineV(Corner3, bottomCorner, BLACK);
+}
+
 void drawMenu()
 {
     Vector2 textSize = MeasureTextEx(GetFontDefault(), "SNAKE", 30, 5);
@@ -29,6 +49,15 @@ void drawMenu()
         (GetScreenHeight() / 2) - (int)(textSize.y) / 2};
 
     DrawTextEx(GetFontDefault(), "SNAKE", textPos, 30, 5, BLACK);
+
+    int buttonWidth = 100;
+    int buttonHeight = 50;
+
+    Vector2 buttonCorner = {
+        (GetScreenWidth() / 2) - (int)(buttonWidth) / 2,
+        (GetScreenHeight() / 2) - (int)(buttonHeight) / 2};
+
+    drawButton(buttonCorner, buttonWidth, buttonHeight, "PLAY");
 }
 
 void drawToScreen(GameState gameState)
