@@ -20,29 +20,34 @@ typedef enum
     GAMEOVER = 2
 } GameState;
 
-void drawButton(Vector2 bottomCorner, int width, int height, char *text)
+void drawButton(Vector2 bottomCorner, Vector2 size, char *text, Color fillColor, Color lineColor)
 {
-    Vector2 Corner1 = {
-        bottomCorner.x + width,
-        bottomCorner.y};
+    Vector2 mousePoint = GetMousePosition();
+    Vector2 smallerRectSize = {
+        size.x - 2,
+        size.y - 2};
 
-    Vector2 Corner2 = {
-        bottomCorner.x + width,
-        bottomCorner.y + height};
+    Vector2 smallerBottomCorner = {
+        bottomCorner.x + 1,
+        bottomCorner.y + 1};
 
-    Vector2 Corner3 = {
+    Rectangle btnBounds = {
         bottomCorner.x,
-        bottomCorner.y + height};
+        bottomCorner.y,
+        size.x,
+        size.y};
 
-    DrawLineV(bottomCorner, Corner1, BLACK);
-    DrawLineV(Corner1, Corner2, BLACK);
-    DrawLineV(Corner2, Corner3, BLACK);
-    DrawLineV(Corner3, bottomCorner, BLACK);
+    DrawRectangleV(bottomCorner, size, lineColor);
+    DrawRectangleV(smallerBottomCorner, smallerRectSize, fillColor);
+    if (CheckCollisionPointRec(mousePoint, btnBounds))
+    {
+        DrawRectangleV(smallerBottomCorner, smallerRectSize, YELLOW);
+    }
 
     Vector2 textSize = MeasureTextEx(GetFontDefault(), text, 30, 5);
     Vector2 textPos = {
-        bottomCorner.x + ((width / 2) - (textSize.x / 2)),
-        bottomCorner.y + ((height / 2) - (textSize.y / 2))};
+        bottomCorner.x + ((size.x / 2) - (textSize.x / 2)),
+        bottomCorner.y + ((size.y / 2) - (textSize.y / 2))};
 
     DrawTextEx(GetFontDefault(), text, textPos, 30, 5, BLACK);
 }
@@ -57,14 +62,15 @@ void drawMenu()
 
     DrawTextEx(GetFontDefault(), "SNAKE", textPos, 30, 5, BLACK);
 
-    int buttonWidth = 100;
-    int buttonHeight = 50;
+    Vector2 buttonSize = {
+        100,
+        50};
 
     Vector2 buttonCorner = {
-        (GetScreenWidth() / 2) - (int)(buttonWidth) / 2,
-        (GetScreenHeight() / 2) + 100 - (int)(buttonHeight) / 2};
+        (GetScreenWidth() / 2) - (int)(buttonSize.x) / 2,
+        (GetScreenHeight() / 2) + 100 - (int)(buttonSize.y) / 2};
 
-    drawButton(buttonCorner, buttonWidth, buttonHeight, "PLAY");
+    drawButton(buttonCorner, buttonSize, "PLAY", WHITE, BLACK);
 }
 
 void drawToScreen(GameState gameState)
