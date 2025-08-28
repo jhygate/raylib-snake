@@ -12,84 +12,98 @@ typedef struct
     double x1, y1;
     double x2, y2;
 } Line;
-
 typedef enum
 {
     MENU = 0,
     PLAYING = 1,
     GAMEOVER = 2
-} GameState;
+} State;
 
 typedef struct
 {
+    Rectangle rectangle;
+    char *text;
+    Color fillColor;
+    Color lineColor;
+    Color hoverColor;
     bool buttonHovered;
     bool buttonPressed;
-} menuWorld;
+} Button;
 
-void drawButton(Vector2 bottomCorner, Vector2 size, char *text, Color fillColor, Color lineColor)
+typedef struct
 {
-    Vector2 mousePoint = GetMousePosition();
-    Vector2 smallerRectSize = {
-        size.x - 2,
-        size.y - 2};
+    Button startButton;
+} MenuState;
 
-    Vector2 smallerBottomCorner = {
-        bottomCorner.x + 1,
-        bottomCorner.y + 1};
+typedef struct
+{
+    State state;
+    MenuState menuState;
 
-    Rectangle btnBounds = {
-        bottomCorner.x,
-        bottomCorner.y,
-        size.x,
-        size.y};
+} GameState;
 
-    DrawRectangleV(bottomCorner, size, lineColor);
-    DrawRectangleV(smallerBottomCorner, smallerRectSize, fillColor);
-    if (CheckCollisionPointRec(mousePoint, btnBounds))
+void draw_button(Button button)
+{
+    Rectangle smallerRect = {
+        button.rectangle.x + 1,
+        button.rectangle.y + 1,
+        button.rectangle.width - 2,
+        button.rectangle.height - 2};
+
+    DrawRectangleRec(button.rectangle, button.lineColor);
+    DrawRectangleRec(smallerRect, button.fillColor);
+    if (button.buttonHovered)
     {
-        DrawRectangleV(smallerBottomCorner, smallerRectSize, YELLOW);
+        DrawRectangleRec(smallerRect, button.hoverColor);
     }
 
-    Vector2 textSize = MeasureTextEx(GetFontDefault(), text, 30, 5);
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), button.text, 30, 5);
     Vector2 textPos = {
-        bottomCorner.x + ((size.x / 2) - (textSize.x / 2)),
-        bottomCorner.y + ((size.y / 2) - (textSize.y / 2))};
+        button.rectangle.x + ((button.rectangle.width / 2) - (textSize.x / 2)),
+        button.rectangle.y + ((button.rectangle.height / 2) - (textSize.y / 2))};
 
-    DrawTextEx(GetFontDefault(), text, textPos, 30, 5, BLACK);
+    DrawTextEx(GetFontDefault(), button.text, textPos, 30, 5, BLACK);
+
+    if (button.buttonPressed)
+    {
+        DrawTextEx(GetFontDefault(), "CLICKED", textPos, 30, 5, BLACK);
+    };
 }
 
-void drawMenu()
+void draw_menu(const MenuState *menuState)
 {
-    Vector2 textSize = MeasureTextEx(GetFontDefault(), "SNAKE", 30, 5);
+    Vector2 textSize = MeasureTextEx(GetFontDefault(), menuState->startButton.text, 30, 5);
 
-    Vector2 textPos = {
-        (GetScreenWidth() / 2) - (int)(textSize.x) / 2,
-        (GetScreenHeight() / 2) - (int)(textSize.y) / 2};
-
-    DrawTextEx(GetFontDefault(), "SNAKE", textPos, 30, 5, BLACK);
-
-    Vector2 buttonSize = {
-        100,
-        50};
-
-    Vector2 buttonCorner = {
-        (GetScreenWidth() / 2) - (int)(buttonSize.x) / 2,
-        (GetScreenHeight() / 2) + 100 - (int)(buttonSize.y) / 2};
-
-    drawButton(buttonCorner, buttonSize, "PLAY", WHITE, BLACK);
+    draw_button(menuState->startButton);
 }
 
-void drawToScreen(GameState gameState)
+void render(const GameState *gameState)
 {
     BeginDrawing();
     ClearBackground(RAYWHITE);
 
-    if (gameState == MENU)
+    if (gameState->state == MENU)
     {
-        drawMenu();
+        draw_menu(&gameState->menuState);
     }
     EndDrawing();
 }
+
+void update_state(GameState *gameState)
+{
+    Vector2 mousePoint = GetMousePosition();
+
+    gameState->menuState.startButton.buttonPressed = false;
+    gameState->menuState.startButton.buttonHovered = false;
+    if (CheckCollisionPointRec(mousePoint, gameState->menuState.startButton.rectangle))
+    {
+        gameState->menuState.startButton.buttonHovered = true;
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        {
+            gameState->menuState.startButton.buttonPressed = true;
+        }
+    }
+};
 
 int main(void)
 {
@@ -98,7 +112,35 @@ int main(void)
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    GameState gameState = 0;
+    State state = MENU;
+
+    Vector2 buttonSize = {
+        100,
+        50};
+    Vector2 buttonCorner = {
+        (screenWidth / 2) - (int)(buttonSize.x) / 2,
+        (screenHeight / 2) + 100 - (int)(buttonSize.y) / 2};
+
+    Rectangle buttonRectangle = {
+        buttonCorner.x,
+        buttonCorner.y,
+        buttonSize.x,
+        buttonSize.y};
+
+    Button startButton = {
+        buttonRectangle,
+        "START",
+        WHITE,
+        BLACK,
+        YELLOW,
+        false,
+        false};
+
+    MenuState menuState = {
+        startButton};
+    GameState gameState = {
+        state,
+        menuState};
 
     InitWindow(screenWidth, screenHeight, "Snake Game");
 
@@ -109,8 +151,8 @@ int main(void)
         // Handle Input -  input_poll(Input *in);
         // Update State - update_player(Player *p, const World *w, const Input *in, float dt);
         // Draw - render_scene(const Player *p, const World *w);
-
-        drawToScreen(gameState);
+        update_state(&gameState);
+        render(&gameState);
     }
 
     CloseWindow();
