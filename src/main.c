@@ -72,8 +72,6 @@ void draw_button(Button button)
 
 void draw_menu(const MenuState *menuState)
 {
-    Vector2 textSize = MeasureTextEx(GetFontDefault(), menuState->startButton.text, 30, 5);
-
     draw_button(menuState->startButton);
 }
 
@@ -160,3 +158,5 @@ int main(void)
 // ToDo
 // Think about input handling, or am i safe to do that in update_state for now?
 // Look at bundling into other files, start on clean file structure for menu items
+//      How to create a new file, add to compiler make and inlcude the header
+// Fully understand and optimise the makefile
