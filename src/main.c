@@ -148,9 +148,6 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        // Handle Input -  input_poll(Input *in);
-        // Update State - update_player(Player *p, const World *w, const Input *in, float dt);
-        // Draw - render_scene(const Player *p, const World *w);
         update_state(&gameState);
         render(&gameState);
     }
@@ -159,3 +156,7 @@ int main(void)
 
     return 0;
 }
+
+// ToDo
+// Think about input handling, or am i safe to do that in update_state for now?
+// Look at bundling into other files, start on clean file structure for menu items
