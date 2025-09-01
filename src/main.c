@@ -4,7 +4,10 @@
 #include <math.h>
 #include <stdio.h>
 
+#define STB_DS_IMPLEMENTATION
+
 #include "snake-menu.h"
+#include "snake-game.h"
 
 typedef struct
 {
@@ -22,20 +25,9 @@ typedef struct
 {
     State state;
     MenuState menuState;
+    PlayingState playingState;
 
 } GameState;
-
-void render(const GameState *gameState)
-{
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-
-    if (gameState->state == MENU)
-    {
-        draw_menu(&gameState->menuState);
-    }
-    EndDrawing();
-}
 
 void update_state(GameState *gameState)
 {
@@ -48,8 +40,26 @@ void update_state(GameState *gameState)
         {
             gameState->state = PLAYING;
         }
+
+        update_playing_state(&gameState->playingState);
     }
 };
+
+void render(const GameState *gameState)
+{
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+
+    if (gameState->state == MENU)
+    {
+        draw_menu(&gameState->menuState);
+    }
+    if (gameState->state == PLAYING)
+    {
+        draw_playing(&gameState->playingState);
+    }
+    EndDrawing();
+}
 
 int main(void)
 {
@@ -60,10 +70,12 @@ int main(void)
 
     State state = MENU;
     MenuState menuState = initialise_menu_state(screenWidth, screenHeight);
+    PlayingState playingState = initialise_playing_state();
 
     GameState gameState = {
         state,
-        menuState};
+        menuState,
+        playingState};
 
     InitWindow(screenWidth, screenHeight, "Snake Game");
 
