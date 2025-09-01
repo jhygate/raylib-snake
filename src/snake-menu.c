@@ -11,7 +11,7 @@
 MenuState initialise_menu_state(int screenWidth, int screenHeight)
 {
     Vector2 buttonSize = {
-        100,
+        150,
         50};
     Vector2 buttonCorner = {
         (screenWidth / 2) - (int)(buttonSize.x) / 2,
@@ -42,7 +42,6 @@ void update_menu_state(MenuState *menuState)
 {
     Vector2 mousePoint = GetMousePosition();
 
-    menuState->startButton.buttonPressed = false;
     menuState->startButton.buttonHovered = false;
     if (CheckCollisionPointRec(mousePoint, menuState->startButton.rectangle))
     {
@@ -51,6 +50,14 @@ void update_menu_state(MenuState *menuState)
         {
             menuState->startButton.buttonPressed = true;
         }
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+        {
+            menuState->startButton.buttonPressed = false;
+        }
+    }
+    else
+    {
+        menuState->startButton.buttonPressed = false;
     }
 }
 
