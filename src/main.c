@@ -82,4 +82,12 @@ int main(void)
 
 // ToDo
 // Think about input handling, or am i safe to do that in update_state for now?
+// Make the menu pretty
+// - Add title
+// - Make button nicer
+// Start Playing State
+// - Make grid
+// - Make Score counter
+// - Make apple sprite
+// - Make snake sprites
 // Fully understand and optimise the makefile
