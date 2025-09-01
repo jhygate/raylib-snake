@@ -1,7 +1,10 @@
 {
     "files.associations": {
-        "stdio.h": "c",
-        "raymath.h": "c"
+      "stdio.h": "c",
+      "raymath.h": "c",
+      "menu.h": "c",
+      "snake-menu.h": "c",
+      "stb_ds.h": "c"
     },
 
     
