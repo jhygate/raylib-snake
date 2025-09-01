@@ -43,6 +43,11 @@ void update_state(GameState *gameState)
     if (gameState->state == MENU)
     {
         update_menu_state(&gameState->menuState);
+
+        if (gameState->menuState.startButton.buttonPressed == true)
+        {
+            gameState->state = PLAYING;
+        }
     }
 };
 
