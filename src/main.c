@@ -40,7 +40,10 @@ void update_state(GameState *gameState)
         {
             gameState->state = PLAYING;
         }
+    }
 
+    if (gameState->state == PLAYING)
+    {
         update_playing_state(&gameState->playingState);
     }
 };
@@ -98,8 +101,11 @@ int main(void)
 // - Add title
 // - Make button nicer
 // Start Playing State
-// - Make grid
+// - Make grid cleaner
+// - render snake and move it
 // - Make Score counter
 // - Make apple sprite
 // - Make snake sprites
+// Understand how to do good logging and debugging
+
 // Fully understand and optimise the makefile

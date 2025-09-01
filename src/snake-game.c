@@ -80,7 +80,10 @@ void draw_playing(PlayingState *playingState)
 void update_playing_state(PlayingState *playingState)
 {
 
-    Vector2 move = directionVectors[playingState->snake.direction];
-    playingState->snake.head.x += move.x;
-    playingState->snake.head.y += move.y;
+    if (IsKeyDown(KEY_SPACE))
+    {
+        Vector2 move = directionVectors[playingState->snake.direction];
+        playingState->snake.head.x += move.x;
+        playingState->snake.head.y += move.y;
+    }
 }
