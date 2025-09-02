@@ -4,9 +4,9 @@
 
 Vector2 directionVectors[] = {
     {0, -1}, // UP
+    {1, 0},  // RIGHT
     {0, 1},  // DOWN
-    {-1, 0}, // LEFT
-    {1, 0}   // RIGHT
+    {-1, 0}  // LEFT
 };
 
 PlayingState initialise_playing_state()
@@ -79,6 +79,22 @@ void draw_playing(PlayingState *playingState)
 
 void update_playing_state(PlayingState *playingState)
 {
+    if (IsKeyDown(KEY_RIGHT))
+    {
+        playingState->snake.direction = RIGHT;
+    }
+    if (IsKeyDown(KEY_DOWN))
+    {
+        playingState->snake.direction = DOWN;
+    }
+    if (IsKeyDown(KEY_LEFT))
+    {
+        playingState->snake.direction = LEFT;
+    }
+    if (IsKeyDown(KEY_UP))
+    {
+        playingState->snake.direction = UP;
+    }
 
     if (IsKeyDown(KEY_SPACE))
     {
