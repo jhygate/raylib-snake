@@ -4,10 +4,9 @@
 #include <math.h>
 #include <stdio.h>
 
-#define STB_DS_IMPLEMENTATION
-
 #include "snake-menu.h"
 #include "snake-game.h"
+#include "input-handler.h"
 
 typedef struct
 {
@@ -29,12 +28,12 @@ typedef struct
 
 } GameState;
 
-void update_state(GameState *gameState)
+void update_state(GameState *gameState, InputState *inputState)
 {
     Vector2 mousePoint = GetMousePosition();
     if (gameState->state == MENU)
     {
-        update_menu_state(&gameState->menuState);
+        update_menu_state(&gameState->menuState, *inputState);
 
         if (gameState->menuState.startButton.buttonPressed == true)
         {
@@ -44,7 +43,7 @@ void update_state(GameState *gameState)
 
     if (gameState->state == PLAYING)
     {
-        update_playing_state(&gameState->playingState);
+        update_playing_state(&gameState->playingState, *inputState);
     }
 };
 
@@ -82,6 +81,8 @@ int main(void)
         menuState,
         playingState};
 
+    InputState inputState = initialise_input_state();
+
     InitWindow(screenWidth, screenHeight, "Snake Game");
 
     SetTargetFPS(60);
@@ -90,9 +91,12 @@ int main(void)
     {
         frameTimer += GetFrameTime();
 
-        if (frameTimer >= 1)
+        update_inputs(&inputState);
+
+        if (frameTimer >= 0.1)
         {
-            update_state(&gameState);
+            update_state(&gameState, &inputState);
+            reset_inputs(&inputState);
             frameTimer = 0;
         }
         render(&gameState);

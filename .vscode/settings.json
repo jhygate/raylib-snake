@@ -5,7 +5,8 @@
       "menu.h": "c",
       "snake-menu.h": "c",
       "stb_ds.h": "c",
-      "locale": "c"
+      "locale": "c",
+      "input-handler.h": "c"
     },
 
     

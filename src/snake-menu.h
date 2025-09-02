@@ -1,4 +1,5 @@
-/* snake-menu.c */
+#include "input-handler.h"
+
 typedef struct
 {
     Rectangle rectangle;
@@ -16,6 +17,6 @@ typedef struct
 } MenuState;
 
 MenuState initialise_menu_state(int screenWidth, int screenHeight);
-void update_menu_state(MenuState *menuState);
+void update_menu_state(MenuState *menuState, InputState inputState);
 void draw_button(Button button);
 void draw_menu(const MenuState *menuState);

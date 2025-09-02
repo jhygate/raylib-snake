@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "snake-menu.h"
+#include "input-handler.h"
 
 MenuState initialise_menu_state(int screenWidth, int screenHeight)
 {
@@ -37,7 +38,7 @@ MenuState initialise_menu_state(int screenWidth, int screenHeight)
     return menuState;
 }
 
-void update_menu_state(MenuState *menuState)
+void update_menu_state(MenuState *menuState, InputState inputState)
 {
     Vector2 mousePoint = GetMousePosition();
 
@@ -45,11 +46,11 @@ void update_menu_state(MenuState *menuState)
     if (CheckCollisionPointRec(mousePoint, menuState->startButton.rectangle))
     {
         menuState->startButton.buttonHovered = true;
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+        if (inputState.leftClick)
         {
             menuState->startButton.buttonPressed = true;
         }
-        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+        if (!inputState.leftClick)
         {
             menuState->startButton.buttonPressed = false;
         }

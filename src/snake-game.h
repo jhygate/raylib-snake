@@ -2,6 +2,7 @@
 #include "raymath.h"
 
 #include "stb_ds.h"
+#include "input-handler.h"
 
 typedef enum
 {
@@ -27,4 +28,4 @@ typedef struct
 PlayingState initialise_playing_state();
 void draw_grid(int rows, int cols);
 void draw_playing(PlayingState *playingState);
-void update_playing_state(PlayingState *playingState);
+void update_playing_state(PlayingState *playingState, InputState inputState);

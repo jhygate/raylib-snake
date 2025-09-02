@@ -77,26 +77,26 @@ void draw_playing(PlayingState *playingState)
     draw_snake(playingState);
 }
 
-void update_playing_state(PlayingState *playingState)
+void update_playing_state(PlayingState *playingState, InputState inputState)
 {
-    if (IsKeyDown(KEY_RIGHT))
+    if (inputState.right)
     {
         playingState->snake.direction = RIGHT;
     }
-    if (IsKeyDown(KEY_DOWN))
+    if (inputState.down)
     {
         playingState->snake.direction = DOWN;
     }
-    if (IsKeyDown(KEY_LEFT))
+    if (inputState.left)
     {
         playingState->snake.direction = LEFT;
     }
-    if (IsKeyDown(KEY_UP))
+    if (inputState.up)
     {
         playingState->snake.direction = UP;
     }
 
-    if (IsKeyDown(KEY_SPACE))
+    if (inputState.space)
     {
         Vector2 move = directionVectors[playingState->snake.direction];
         playingState->snake.head.x += move.x;
