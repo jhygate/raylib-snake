@@ -71,6 +71,8 @@ int main(void)
     const int screenWidth = 800;
     const int screenHeight = 450;
 
+    float frameTimer = 0;
+
     State state = MENU;
     MenuState menuState = initialise_menu_state(screenWidth, screenHeight);
     PlayingState playingState = initialise_playing_state();
@@ -86,7 +88,13 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        update_state(&gameState);
+        frameTimer += GetFrameTime();
+
+        if (frameTimer >= 1)
+        {
+            update_state(&gameState);
+            frameTimer = 0;
+        }
         render(&gameState);
     }
 
