@@ -27,5 +27,6 @@ typedef struct
 
 PlayingState initialise_playing_state();
 void draw_grid(int rows, int cols);
-void draw_playing(PlayingState *playingState);
+void draw_playing(const PlayingState *playingState);
 void update_playing_state(PlayingState *playingState, InputState inputState);
+void draw_snake(const PlayingState *playingState);

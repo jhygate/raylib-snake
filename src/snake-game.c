@@ -15,7 +15,7 @@ PlayingState initialise_playing_state()
         {0, 0},
         RIGHT};
 
-    PlayingState playingState = {10, 10, snake};
+    PlayingState playingState = {20, 20, snake};
 
     return playingState;
 }
@@ -51,7 +51,7 @@ void draw_grid(int rows, int cols)
     }
 }
 
-void draw_snake(PlayingState *playingState)
+void draw_snake(const PlayingState *playingState)
 {
     const int screenWidth = GetScreenWidth();
     const int screenHeight = GetScreenHeight();
@@ -69,7 +69,7 @@ void draw_snake(PlayingState *playingState)
     DrawRectangleRec(snakeHead, RED);
 }
 
-void draw_playing(PlayingState *playingState)
+void draw_playing(const PlayingState *playingState)
 {
     draw_grid(playingState->rows,
               playingState->cols);
@@ -79,19 +79,19 @@ void draw_playing(PlayingState *playingState)
 
 void update_playing_state(PlayingState *playingState, InputState inputState)
 {
-    if (inputState.right)
+    if (inputState.right & (playingState->snake.direction != LEFT))
     {
         playingState->snake.direction = RIGHT;
     }
-    if (inputState.down)
+    if (inputState.down & (playingState->snake.direction != UP))
     {
         playingState->snake.direction = DOWN;
     }
-    if (inputState.left)
+    if (inputState.left & (playingState->snake.direction != RIGHT))
     {
         playingState->snake.direction = LEFT;
     }
-    if (inputState.up)
+    if (inputState.up & (playingState->snake.direction != DOWN))
     {
         playingState->snake.direction = UP;
     }
