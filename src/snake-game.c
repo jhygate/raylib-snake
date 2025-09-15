@@ -99,8 +99,8 @@ void draw_playing(const PlayingState *playingState)
     draw_grid(playingState->rows,
               playingState->cols);
 
-    draw_snake(playingState);
     draw_apples(playingState);
+    draw_snake(playingState);
 }
 
 void update_playing_state(PlayingState *playingState, InputState inputState)
@@ -111,6 +111,13 @@ void update_playing_state(PlayingState *playingState, InputState inputState)
         Vector2 move = directionVectors[playingState->snake.direction];
         playingState->snake.head.x += move.x;
         playingState->snake.head.y += move.y;
+    }
+
+    if ((playingState->snake.head.x == playingState->apple.pos.x) &&
+        (playingState->snake.head.y == playingState->apple.pos.y))
+    {
+        playingState->apple.pos.x = 0;
+        playingState->apple.pos.y = 0;
     }
 
     if (inputState.right & (playingState->snake.direction != LEFT))
