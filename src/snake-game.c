@@ -15,7 +15,10 @@ PlayingState initialise_playing_state()
         {0, 0},
         RIGHT};
 
-    PlayingState playingState = {20, 20, snake};
+    Apple apple = {
+        {5, 5}};
+
+    PlayingState playingState = {20, 20, snake, apple};
 
     return playingState;
 }
@@ -66,7 +69,29 @@ void draw_snake(const PlayingState *playingState)
         5,
     };
 
-    DrawRectangleRec(snakeHead, RED);
+    DrawRectangleRec(snakeHead, GREEN);
+}
+
+void draw_apples(const PlayingState *playingState)
+{
+    const int screenWidth = GetScreenWidth();
+    const int screenHeight = GetScreenHeight();
+
+    const int cellWidth = (int)floor(screenWidth / playingState->cols);
+    const int cellHeight = (int)floor(screenHeight / playingState->rows);
+
+    for (int i = 0; i < 1; i++)
+    {
+
+        Rectangle appleRect = {
+            playingState->apple.pos.x * cellWidth + 1,
+            playingState->apple.pos.y * cellHeight + 1,
+            5,
+            5,
+        };
+
+        DrawRectangleRec(appleRect, RED);
+    }
 }
 
 void draw_playing(const PlayingState *playingState)
@@ -75,10 +100,19 @@ void draw_playing(const PlayingState *playingState)
               playingState->cols);
 
     draw_snake(playingState);
+    draw_apples(playingState);
 }
 
 void update_playing_state(PlayingState *playingState, InputState inputState)
 {
+
+    if (inputState.space)
+    {
+        Vector2 move = directionVectors[playingState->snake.direction];
+        playingState->snake.head.x += move.x;
+        playingState->snake.head.y += move.y;
+    }
+
     if (inputState.right & (playingState->snake.direction != LEFT))
     {
         playingState->snake.direction = RIGHT;
@@ -94,12 +128,5 @@ void update_playing_state(PlayingState *playingState, InputState inputState)
     if (inputState.up & (playingState->snake.direction != DOWN))
     {
         playingState->snake.direction = UP;
-    }
-
-    if (inputState.space)
-    {
-        Vector2 move = directionVectors[playingState->snake.direction];
-        playingState->snake.head.x += move.x;
-        playingState->snake.head.y += move.y;
     }
 }

@@ -20,9 +20,15 @@ typedef struct
 
 typedef struct
 {
+    Vector2 pos;
+} Apple;
+
+typedef struct
+{
     int rows;
     int cols;
     Snake snake;
+    Apple apple;
 } PlayingState;
 
 PlayingState initialise_playing_state();
@@ -30,3 +36,4 @@ void draw_grid(int rows, int cols);
 void draw_playing(const PlayingState *playingState);
 void update_playing_state(PlayingState *playingState, InputState inputState);
 void draw_snake(const PlayingState *playingState);
+void draw_apples(const PlayingState *playingState);
