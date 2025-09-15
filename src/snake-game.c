@@ -152,5 +152,6 @@ void update_playing_state(PlayingState *playingState, InputState inputState)
 
 // ToDo:
 // Create tail object
-//  - Work out how to initialise playingState with variable size list
+//  - Grow tail on apple eaten
+//  - Make tail pos move on frame update
 // Make apple move to random pos that is not occupied
