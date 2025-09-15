@@ -137,3 +137,8 @@ void update_playing_state(PlayingState *playingState, InputState inputState)
         playingState->snake.direction = UP;
     }
 }
+
+// ToDo:
+// Create tail object
+//  - Work out how to initialise playingState with variable size list
+// Make apple move to random pos that is not occupied
