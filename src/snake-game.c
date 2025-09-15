@@ -13,6 +13,7 @@ PlayingState initialise_playing_state()
 {
     Snake snake = {
         {0, 0},
+        NULL,
         RIGHT};
 
     Apple apple = {
@@ -68,6 +69,17 @@ void draw_snake(const PlayingState *playingState)
         5,
         5,
     };
+
+    for (int tailIndex = 0; tailIndex < arrlen(playingState->snake.tail); tailIndex++)
+    {
+        Rectangle snakeTail = {
+            playingState->snake.tail[tailIndex].x * cellWidth + 1,
+            playingState->snake.tail[tailIndex].y * cellHeight + 1,
+            5,
+            5,
+        };
+        DrawRectangleRec(snakeTail, GREEN);
+    }
 
     DrawRectangleRec(snakeHead, GREEN);
 }

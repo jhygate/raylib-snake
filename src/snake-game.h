@@ -15,6 +15,7 @@ typedef enum
 typedef struct
 {
     Vector2 head;
+    Vector2 *tail;
     Direction direction;
 } Snake;
 
